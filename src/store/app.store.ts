@@ -1,6 +1,6 @@
 import { writable } from 'svelte/store';
 
-interface IStore {
+export interface IStore {
   state: boolean;
   inputName: string;
   names: string[];
@@ -9,11 +9,19 @@ interface IStore {
   result: string;
 }
 
-export const store = writable<IStore>({
+const initValues = {
   state: true,
   inputName: '',
   names: [],
   error: '',
   showError: false,
   result: '',
-});
+};
+
+export const store = writable<IStore>(
+  structuredClone(initValues),
+);
+
+export const resetStore = () => {
+  store.set(structuredClone(initValues));
+};
